@@ -1,16 +1,16 @@
-import { StatusBar } from "expo-status-bar";
-import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from "react";
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -42,7 +42,7 @@ function TelaLogin({ navigation }) {
       <View style={styles.container_btn}>
         <TouchableOpacity
           style={styles.botao}
-          onPress={() => navigation.navigate("Lista_contatos")}
+          onPress={() => navigation.navigate("ListaContatos")}
         >
           <Text style={styles.texto}>Login</Text>
         </TouchableOpacity>
@@ -156,6 +156,12 @@ function TelaLista_Contatos({ navigation }) {
         onPress={() => navigation.navigate("Alteracao")}
         style={[styles.item, { backgroundColor }]}
       >
+        <Image
+          style={styles.tinyLogo}
+          source={{
+            uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLW3lNXGdlVP5uUSW_MznsmILJdTn_t5h2PA&s",
+          }}
+        />
         <Text style={[styles.title, { color }]}>{item.title}</Text>
         <Text style={[styles.number, { color }]}>{item.number}</Text>
       </TouchableOpacity>
@@ -207,7 +213,7 @@ function TelaAlteracao({ navigation }) {
       <View style={styles.container_btn}>
         <TouchableOpacity
           style={styles.botao}
-          onPress={() => navigation.navigate("Lista_contatos")}
+          onPress={() => navigation.navigate("Listacontatos")}
         >
           <Text style={styles.texto}>Salvar</Text>
         </TouchableOpacity>
@@ -226,8 +232,8 @@ function TelaAlteracao({ navigation }) {
 function TelaCadastroContato({ navigation }) {
   const [nome, setNome] = React.useState("");
   const [email, setEmail] = React.useState("");
-  const [Telefone, setTelefone] = React.useState("");
-  
+  const [telefone, setTelefone] = React.useState("");
+
   return (
     <View style={styles.container}>
       <Text>Nome</Text>
@@ -275,9 +281,27 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Login" component={TelaLogin} />
         <Stack.Screen name="Cadastro" component={TelaCadastro} />
-        <Stack.Screen name="Lista_contatos" component={TelaLista_Contatos} />
-        <Stack.Screen name="Alteracao" component={TelaAlteracao} />
+
+        <Stack.Screen
+          name="ListaContatos"
+          component={TelaLista_Contatos}
+          options={({ navigation }) => ({
+            title: "Contatos",
+            headerTitleAlign: "center",
+            headerRight: () => (
+              <Ionicons
+                name="add"
+                size={28}
+                color="black"
+                style={{ marginRight: 15 }}
+                onPress={() => navigation.navigate("Contato")}
+              />
+            ),
+          })}
+        />
+
         <Stack.Screen name="Contato" component={TelaCadastroContato} />
+        <Stack.Screen name="Alteracao" component={TelaAlteracao} />
         <Stack.Screen name="EsqueciSenha" component={TelaEsqueciSenha} />
       </Stack.Navigator>
     </NavigationContainer>
